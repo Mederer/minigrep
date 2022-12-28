@@ -9,17 +9,19 @@ pub struct Config {
 impl Config {
     // Position of the 'ignore case' argument
     const IGNORE_CASE_INDEX: usize = 3;
+    const IGNORE_CASE_VALUE: &str = "1";
 
     pub fn build(args: &[String]) -> Result<Self, &'static str> {
         if args.len() < 3 {
             return Err("Not enough arguments!");
         }
 
-        // User has given 'ignore case' argument or set the 'IGNORE_CASE' env var
+        // True if user has given 'ignore-case' or 'ic' argument or set the 'IGNORE_CASE' env var
         let ignore_case = if (args.len() >= 4
             && (args[Self::IGNORE_CASE_INDEX] == "ignore-case"
                 || args[Self::IGNORE_CASE_INDEX] == "ic"))
-            || (env::var("IGNORE_CASE").is_ok() && env::var("IGNORE_CASE").unwrap() == "1")
+            || (env::var("IGNORE_CASE").is_ok()
+                && env::var("IGNORE_CASE").unwrap() == Self::IGNORE_CASE_VALUE)
         {
             true
         } else {
