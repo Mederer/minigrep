@@ -16,7 +16,6 @@ impl Config {
             return Err("Not enough arguments!");
         }
 
-        // True if user has given 'ignore-case' or 'ic' argument or set the 'IGNORE_CASE' env var
         let ignore_case = Self::ignore_case(&args);
 
         let query = args[1].clone();
@@ -29,6 +28,7 @@ impl Config {
         })
     }
 
+    // True if user has given 'ignore-case' or 'ic' argument or set the 'IGNORE_CASE' env var
     fn ignore_case(args: &[String]) -> bool {
         if (args.len() >= 4
             && (args[Self::IGNORE_CASE_INDEX] == "ignore-case"
