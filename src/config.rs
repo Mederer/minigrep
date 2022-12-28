@@ -9,7 +9,7 @@ pub struct Config {
 impl Config {
     // Position of the 'ignore case' argument
     const IGNORE_CASE_INDEX: usize = 3;
-    const IGNORE_CASE_VALUE: &str = "1";
+    const IGNORE_CASE_EXPECTED_VALUE: &str = "1";
 
     pub fn build(args: &[String]) -> Result<Self, &'static str> {
         if args.len() < 3 {
@@ -34,7 +34,7 @@ impl Config {
             && (args[Self::IGNORE_CASE_INDEX] == "ignore-case"
                 || args[Self::IGNORE_CASE_INDEX] == "ic"))
             || (env::var("IGNORE_CASE").is_ok()
-                && env::var("IGNORE_CASE").unwrap() == Self::IGNORE_CASE_VALUE)
+                && env::var("IGNORE_CASE").unwrap() == Self::IGNORE_CASE_EXPECTED_VALUE)
         {
             true
         } else {
