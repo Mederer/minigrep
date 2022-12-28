@@ -42,3 +42,53 @@ impl Config {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_build() {
+        let config = Config::build(&vec![String::from("_"), String::from("_")]);
+        assert!(config.is_err());
+    }
+
+    #[test]
+    fn test_build_2() {
+        let config = Config::build(&vec![
+            String::from("_"),
+            String::from("to"),
+            String::from("poem.txt"),
+        ]);
+        assert!(config.is_ok());
+    }
+
+    #[test]
+    fn test_ignore_case() {
+        assert!(Config::ignore_case(&vec![
+            String::from("_"),
+            String::from("_"),
+            String::from("_"),
+            String::from("ignore-case")
+        ]));
+    }
+
+    #[test]
+    fn test_ignore_case_2() {
+        assert!(Config::ignore_case(&vec![
+            String::from("_"),
+            String::from("_"),
+            String::from("_"),
+            String::from("ic")
+        ]));
+    }
+
+    #[test]
+    fn test_ignore_case_3() {
+        assert!(!Config::ignore_case(&vec![
+            String::from("_"),
+            String::from("_"),
+            String::from("_")
+        ]));
+    }
+}

@@ -10,11 +10,30 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     let results = search(&config.query, &contents, config.ignore_case);
 
-    for line in results {
-        println!("{line}");
+    if results.len() == 0 {
+        println!("No results.");
+    } else {
+        for line in results {
+            println!("{line}");
+        }
     }
 
     Ok(())
+}
+
+pub fn help() {
+    println!(
+        "\
+## Minigrep ##
+Search a file for a given phrase.
+
+Instructions for use:
+minigrep <phrase> <filepath> <optional: ignore-case>
+
+Including the ignore-case argument will perform a case-insensitive search.
+Alternatively, set an IGNORE_CASE=1 environment variable to perform a case-insensitive search.
+"
+    )
 }
 
 pub fn search<'a>(query: &str, contents: &'a str, ignore_case: bool) -> Vec<&'a str> {
@@ -43,7 +62,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn case_sensitive() {
+    fn search_case_sensitive() {
         let query = "duct";
         let contents = "Rust:\nSafe, fast, productive.\nPick three.\nDuct tape.";
 
@@ -54,7 +73,7 @@ mod tests {
     }
 
     #[test]
-    fn case_insensitive() {
+    fn search_case_insensitive() {
         let query = "rUsT";
         let contents = "\
 Rust:
