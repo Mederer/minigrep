@@ -17,16 +17,7 @@ impl Config {
         }
 
         // True if user has given 'ignore-case' or 'ic' argument or set the 'IGNORE_CASE' env var
-        let ignore_case = if (args.len() >= 4
-            && (args[Self::IGNORE_CASE_INDEX] == "ignore-case"
-                || args[Self::IGNORE_CASE_INDEX] == "ic"))
-            || (env::var("IGNORE_CASE").is_ok()
-                && env::var("IGNORE_CASE").unwrap() == Self::IGNORE_CASE_VALUE)
-        {
-            true
-        } else {
-            false
-        };
+        let ignore_case = Self::ignore_case(&args);
 
         let query = args[1].clone();
         let file_path = args[2].clone();
@@ -36,5 +27,18 @@ impl Config {
             file_path,
             ignore_case,
         })
+    }
+
+    fn ignore_case(args: &[String]) -> bool {
+        if (args.len() >= 4
+            && (args[Self::IGNORE_CASE_INDEX] == "ignore-case"
+                || args[Self::IGNORE_CASE_INDEX] == "ic"))
+            || (env::var("IGNORE_CASE").is_ok()
+                && env::var("IGNORE_CASE").unwrap() == Self::IGNORE_CASE_VALUE)
+        {
+            true
+        } else {
+            false
+        }
     }
 }
